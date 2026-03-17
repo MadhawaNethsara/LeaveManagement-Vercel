@@ -2,12 +2,12 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 export interface User {
-  id: number
+  id: number | string
   name: string
   email: string
   role: string
   annual_leave_balance: number
-  created_at: string
+  created_at?: string
 }
 
 interface AuthState {

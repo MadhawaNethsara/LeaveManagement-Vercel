@@ -19,12 +19,22 @@ export default function Login() {
     }
     setLoading(true)
     try {
-      const { data } = await login(email, password)
-      setAuth(data.data.user, data.data.token)
+      const res = await login(email, password)
+      // Axios puts response body in res.data; API returns { data: { user, token } }
+      const body = res.data as { data?: { user?: unknown; token?: string }; user?: unknown; token?: string }
+      const user = body?.data?.user ?? body?.user
+      const token = body?.data?.token ?? body?.token
+      if (!user || !token) {
+        toast.error('Invalid response from server')
+        return
+      }
+      setAuth(user as any, token)
       toast.success('Welcome back!')
-      navigate('/')
+      // Defer navigate so auth state (and persist) is committed before PrivateRoute reads it
+      setTimeout(() => navigate('/', { replace: true }), 0)
     } catch (err: any) {
-      toast.error(err.response?.data?.error || 'Login failed')
+      const msg = err.response?.data?.error ?? err.message ?? 'Login failed'
+      toast.error(msg)
     } finally {
       setLoading(false)
     }
