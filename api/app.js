@@ -15,20 +15,27 @@ app.use(express.json())
 // --- Auth ---
 app.post('/api/auth/login', async (req, res) => {
   try {
-    const { email, password } = req.body || {}
+    const body = req.body || {}
+    const email = typeof body.email === 'string' ? body.email.trim() : ''
+    const password = typeof body.password === 'string' ? body.password : ''
     if (!email || !password) return res.status(400).json({ error: 'invalid request' })
+    if (!process.env.MONGODB_URI && !process.env.MONGO_URI) {
+      return res.status(503).json({ error: 'Database not configured. Set MONGODB_URI in Vercel.' })
+    }
     const user = await User.findOne({ email, deleted_at: null })
     if (!user) return res.status(401).json({ error: 'invalid email or password' })
     const ok = await bcrypt.compare(password, user.password_hash)
     if (!ok) return res.status(401).json({ error: 'invalid email or password' })
+    const secret = process.env.JWT_SECRET || 'change-me-in-production-secret-key'
     const token = jwt.sign(
       { user_id: user._id.toString(), email: user.email, role: user.role },
-      JWT_SECRET,
+      secret,
       { expiresIn: '24h' }
     )
     const u = user.toJSON()
     return res.json({ data: { user: u, token } })
   } catch (e) {
+    console.error('Login error:', e && e.message)
     return res.status(500).json({ error: 'login failed' })
   }
 })

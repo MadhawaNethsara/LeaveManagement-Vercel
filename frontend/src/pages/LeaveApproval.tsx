@@ -6,6 +6,7 @@ import { TableSkeleton } from '../components/LoadingSkeleton'
 import DataTable, { Pagination } from '../components/DataTable'
 import PageHeader from '../components/PageHeader'
 import toast from 'react-hot-toast'
+import { getErrorMessage } from '../utils/errorMessage'
 import { Check, X } from 'lucide-react'
 
 const PAGE_SIZE = 10
@@ -43,7 +44,7 @@ export default function LeaveApproval() {
     },
     onError: (err: any) => {
       setActingId(null)
-      toast.error(err.response?.data?.error || 'Update failed')
+      toast.error(getErrorMessage(err, 'Update failed'))
     },
   })
 

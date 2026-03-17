@@ -33,7 +33,8 @@ export default function Login() {
       // Defer navigate so auth state (and persist) is committed before PrivateRoute reads it
       setTimeout(() => navigate('/', { replace: true }), 0)
     } catch (err: any) {
-      const msg = err.response?.data?.error ?? err.message ?? 'Login failed'
+      const raw = err.response?.data?.error ?? err.message ?? 'Login failed'
+      const msg = typeof raw === 'string' ? raw : 'Login failed'
       toast.error(msg)
     } finally {
       setLoading(false)

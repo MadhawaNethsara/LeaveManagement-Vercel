@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { getEmployees, createEmployee, updateEmployee, deleteEmployee } from '../services/api'
 import toast from 'react-hot-toast'
+import { getErrorMessage } from '../utils/errorMessage'
 import { TableSkeleton } from '../components/LoadingSkeleton'
 import DataTable, { Pagination } from '../components/DataTable'
 import PageHeader from '../components/PageHeader'
@@ -34,7 +35,7 @@ export default function Employees() {
       setModal(null)
       setForm({ name: '', email: '', password: '', role: 'employee', annual_leave_balance: 20 })
     },
-    onError: (err: any) => toast.error(err.response?.data?.error || 'Create failed'),
+    onError: (err: any) => toast.error(getErrorMessage(err, 'Create failed')),
   })
 
   const updateMut = useMutation({
@@ -46,7 +47,7 @@ export default function Employees() {
       setEditingId(null)
       setForm({ name: '', email: '', password: '', role: 'employee', annual_leave_balance: 20 })
     },
-    onError: (err: any) => toast.error(err.response?.data?.error || 'Update failed'),
+    onError: (err: any) => toast.error(getErrorMessage(err, 'Update failed')),
   })
 
   const deleteMut = useMutation({
@@ -56,7 +57,7 @@ export default function Employees() {
       queryClient.invalidateQueries({ queryKey: ['dashboard-stats'] })
       toast.success('Employee deleted')
     },
-    onError: (err: any) => toast.error(err.response?.data?.error || 'Delete failed'),
+    onError: (err: any) => toast.error(getErrorMessage(err, 'Delete failed')),
   })
 
   const employees = data?.data ?? []

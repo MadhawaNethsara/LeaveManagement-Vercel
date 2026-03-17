@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { applyLeave } from '../services/api'
 import { useAuthStore } from '../store/authStore'
 import toast from 'react-hot-toast'
+import { getErrorMessage } from '../utils/errorMessage'
 
 const LEAVE_TYPES = [
   { value: 'annual', label: 'Annual Leave' },
@@ -32,7 +33,7 @@ export default function ApplyLeave() {
       setLeaveType('annual')
     },
     onError: (err: any) => {
-      toast.error(err.response?.data?.error || 'Failed to apply leave')
+      toast.error(getErrorMessage(err, 'Failed to apply leave'))
     },
   })
 
