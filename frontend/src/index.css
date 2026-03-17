@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-surface-50 text-surface-900 font-sans antialiased;
+}
+
+/* Focus visible for accessibility */
+*:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary-500;
+}
+
+/* Form inputs - consistent styling */
+@layer components {
+  .input {
+    @apply w-full rounded-lg border border-surface-200 bg-white px-4 py-2.5 text-surface-900 placeholder-surface-400
+           transition-colors focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none
+           disabled:bg-surface-100 disabled:cursor-not-allowed
+           min-h-[2.75rem] sm:min-h-0;
+  }
+  .input-sm {
+    @apply input px-3 py-2 text-sm min-h-[2.5rem];
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-medium text-white
+           shadow-card hover:bg-primary-700 hover:shadow-card-hover focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
+           disabled:opacity-50 disabled:pointer-events-none transition-all min-h-[2.75rem] sm:min-h-[2.5rem];
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-surface-200 bg-white px-4 py-2.5 text-sm font-medium text-surface-700
+           hover:bg-surface-50 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 transition-all min-h-[2.75rem] sm:min-h-[2.5rem];
+  }
+  .card {
+    @apply rounded-xl border border-surface-200 bg-white shadow-card overflow-hidden;
+  }
+  .page-header {
+    @apply mb-6 sm:mb-8;
+  }
+  .page-title {
+    @apply text-xl font-bold tracking-tight text-surface-900 sm:text-2xl;
+  }
+  .page-subtitle {
+    @apply mt-1 text-sm text-surface-500 sm:mt-1.5;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-surface-100 rounded;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-surface-200 rounded hover:bg-surface-300;
+}
+
+/* Smooth transitions for layout */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}

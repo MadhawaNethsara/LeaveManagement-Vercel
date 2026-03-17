@@ -1,0 +1,56 @@
+# =========================
+# Environment & secrets
+# =========================
+.env
+.env.local
+.env.*.local
+*.env
+backend/.env
+
+# =========================
+# Frontend (Node / Vite / React)
+# =========================
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/.cache/
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+frontend/.pnpm-store/
+
+# =========================
+# Backend (Go)
+# =========================
+backend/*.exe
+backend/server
+backend/leave-management
+backend/vendor/
+*.test
+*.out
+backend/dist/
+
+# =========================
+# IDE & editors
+# =========================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# =========================
+# OS & misc
+# =========================
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+.cache/
+
+# =========================
+# Optional: uncomment if you use them
+# =========================
+# backend/vendor/
+# *.local
